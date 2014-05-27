@@ -2502,6 +2502,13 @@ public class ComposeMessageActivity extends Activity
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(!hasFocus) return;
+        mConversation.markAsRead(true);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
