@@ -249,6 +249,7 @@ public class ComposeMessageActivity extends Activity
     private static final int MENU_GROUP_PARTICIPANTS    = 32;
     private static final int MENU_ADD_TEMPLATE          = 34;
     private static final int MENU_ADD_TO_CALENDAR       = 36;
+    private static final int MENU_CONVERSATION_OPTIONS  = 37;
 
     private static final int DIALOG_TEMPLATE_SELECT     = 1;
     private static final int DIALOG_TEMPLATE_NOT_AVAILABLE = 2;
@@ -3041,6 +3042,12 @@ public class ComposeMessageActivity extends Activity
                 mAddContactIntent = item.getIntent();
                 startActivityForResult(mAddContactIntent, REQUEST_CODE_ADD_CONTACT);
                 break;
+            case MENU_CONVERSATION_OPTIONS: {
+                Intent intent = new Intent(this, ConversationOptionsActivity.class);
+                intent.putExtra(THREAD_ID, mConversation.getThreadId());
+                startActivityIfNeeded(intent, -1);
+                break;
+            }
             case MENU_PREFERENCES: {
                 Intent intent = new Intent(this, MessagingPreferenceActivity.class);
                 startActivityIfNeeded(intent, -1);
@@ -4850,7 +4857,7 @@ public class ComposeMessageActivity extends Activity
             MessageItem item = getMessageItem(uri.getAuthority(), msgId, false);
             if (item != null) {
                 item.setCountDown(countDown);
-                int count = mMsgListView.getCount();
+                int count = mMsgListView.getChildCount();
                 for (int i = 0; i < count; i++) {
                     MessageListItem v = (MessageListItem) mMsgListView.getChildAt(i);
                     MessageItem listItem = v.getMessageItem();
